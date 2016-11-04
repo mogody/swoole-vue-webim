@@ -34,9 +34,19 @@ export default {
     },
 
     addMessage : function({ dispatch }, message){
+        if (message.is_self != 1) {
+            let userId = message.to == 0 ? 0 : message.from;
+        
+            dispatch('SET_HAS_MESSAGE',userId,true);
+        }
+        
         
         dispatch('ADD_MESSAGE',message);
     },
+
+    setHasMessageStatus : function({ dispatch }, userId, status){
+        dispatch('SET_HAS_MESSAGE', userId, status);
+    }
 
 
 };

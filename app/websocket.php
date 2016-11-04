@@ -51,6 +51,7 @@ class WebSocket{
     const MESSAGE_TYPE = 'message';
     const INIT_SELF_TYPE = 'self_init';
     const INIT_OTHER_TYPE = 'other_init';
+    const COUNT_TYPE = 'count';
 
     private $avatars = [
         'http://e.hiphotos.baidu.com/image/h%3D200/sign=08f4485d56df8db1a32e7b643922dddb/1ad5ad6eddc451dad55f452ebefd5266d116324d.jpg',
@@ -131,6 +132,8 @@ class WebSocket{
                 'except' => [],
                 'data' => $otherMsg
             ]);
+
+    
 
         //broadcast a user is online
         $msg = $this->buildMsg([

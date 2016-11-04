@@ -3,7 +3,6 @@
         <textarea name="" id="" placeholder="Press enter to send" v-model="content"></textarea>
     </div>
     <div class="text-footer">
-        <span>按下Ctrl+Enter换行</span>
         <button v-on:click="send">发送</button>
     </div>
 </template>

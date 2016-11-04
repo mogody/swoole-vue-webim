@@ -4,6 +4,7 @@
             <li v-for="user in users | filterBy filterUser in 'nickname'" track-by="id" v-bind:id="user.id" v-on:click="changeSession(user.id)">
                 <img v-bind:src="user.avatar" v-bind:alt="user.name">
                 <p>{{ user.nickname }}</p>
+                <div v-bind:class="[ user.has_message ? 'dot' : '' ]"></div>
             </li>
         </ul>
     </div>
@@ -22,6 +23,7 @@
             changeSession(userId){
                 if (typeof userId == 'number') {
                     this.selectSession(userId);
+                    this.setHasMessageStatus(userId,false);
                 }
             }
         }
@@ -77,6 +79,14 @@
             p{
                 margin-left: 15px;
                 font-size: 16px;
+            }
+            .dot{
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                align-self: center;
+                margin-left: 10px;
+                background: #ff0000;
             }
         }
     }

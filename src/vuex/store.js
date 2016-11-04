@@ -16,7 +16,8 @@ const state = {
         {
             id : 0,
             nickname : '群聊',
-            avatar : 'http://58pic.ooopic.com/58pic/12/25/04/02k58PICVwf.jpg'
+            avatar : 'http://58pic.ooopic.com/58pic/12/25/04/02k58PICVwf.jpg',
+            has_message : false
         }
     ],
     filterUser: '',
@@ -61,11 +62,13 @@ const mutations = {
 
             for (var i = user.length - 1; i >= 0; i--) {
                 if (user[i].id != state.currentUser.id) {
+                    user[i].has_message = false;
                     state.users.push(user[i]);
                 }
                 
             }
         }else{
+            user.has_message = false;
             state.users.push(user);
         }
     
@@ -134,7 +137,15 @@ const mutations = {
             state.broadcast.$set(message.from,state.broadcast[ message.from ]);
         }
 
-        
+    },
+
+    SET_HAS_MESSAGE : (state, userId, status) => {
+
+        for (var i = state.users.length - 1; i >= 0; i--) {
+            if (status == false || state.users[i].id == userId && state.currentSession.id != userId ) {
+                state.users[i].has_message = status;
+            }
+        }
     }
 }
 
