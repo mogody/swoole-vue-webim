@@ -4,7 +4,6 @@
     </div>
     <div class="text-footer">
         <span>按下Ctrl+Enter换行</span>
-        <button>接收</button>
         <button v-on:click="send">发送</button>
     </div>
 </template>
@@ -12,16 +11,31 @@
 
 <script>
 
+    import actions from '../vuex/actions'
+    import getters from '../vuex/getters'
 
     export default {
-        vuex : {
-
+        vuex: {
+            getters : getters,
+            actions : actions
         },
 
         methods : {
             send(e){
                 let date = new Date();
-                console.log(this.content);
+                let _this = this;
+                let msg = {
+                        from : _this.currentUser.id,
+                        to : _this.currentSession.id,
+                        msg : _this.content,
+                        date : date
+                    };
+                if (this.content != '') {
+                    this.conn.send(JSON.stringify(msg));
+                    _this.content = '';
+                }
+                msg.is_self = 1;
+                _this.addMessage(msg);
             }
         },
 

@@ -1,14 +1,15 @@
 <template>
-    <div id="app">
-        <div class="slide-bar">
-          <user></user>
-          <list></list>
-        </div>
-        <div class="main">
-          <message></message>
-          <user-text></user-text>
-        </div>
+  <div id="app">
+    <div class="slide-bar">
+      <user></user>
+      <list></list>
     </div>
+    <div class="main">
+      <message></message>
+      <user-text></user-text>
+    </div>
+    <notice></notice>
+  </div>
 </template>
 
 <script>
@@ -20,21 +21,52 @@
     import List from './components/List.vue';
     import Message from './components/Message.vue';
     import UserText from './components/Text.vue';
+    import Notice from './components/Notice.vue';
 
     export default {
         vuex : {
-          actions : actions,
-          getters : getters
+            actions : actions,
+            getters : getters
         },
 
         components:{
-          User,UserText,Message,List
+            User,UserText,Message,List,
         },
 
         created : function(){
-          let conn = new WebSocket('ws://127.0.0.1:9501');
-          this.setConn(conn);
-          console.log(this.getConn);
+            let _this = this;
+            let conn = new WebSocket('ws://127.0.0.1:9501');
+
+            conn.onopen = function(evt){
+                _this.changeStatus(true);
+            }
+            conn.onclose = function(evt){
+                _this.changeStatus(false);
+            }
+            conn.onmessage = function(evt){
+                let msg = JSON.parse(evt.data);
+
+                switch(msg.type){
+                    case 'connect':
+                        _this.addUser(msg.data);
+                        break;
+                    case 'disconnect':
+                        _this.removeUser(msg.data.id);
+                        break;
+                    case 'self_init':
+                        _this.setUser(msg.data);
+                        break;
+                    case 'other_init':
+                        _this.addUser(msg.data);
+                        break;
+                    case 'message':   
+                        _this.addMessage(msg.data);
+
+                        break;
+                }
+            }
+
+            _this.setConn(conn);
         },
 
         store: store
@@ -71,6 +103,7 @@
           display: flex;
           flex-direction: column;
         }
+
 
     }
 </style>

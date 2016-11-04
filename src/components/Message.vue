@@ -5,7 +5,7 @@
         </div>
         <div class="message">
             <ul>
-                <li v-for="msg in broadcast" tyack-by="id">
+                <li v-for="msg in broadcast[currentSession.id]">
                     <p>{{ msg.time }}</p>
                     <div class="msg" v-bind:class="msg.user.id == currentUser.id ? 'self' : ''">
                         <img v-bind:src="msg.user.avatar" v-bind:alt="msg.user.nickname">

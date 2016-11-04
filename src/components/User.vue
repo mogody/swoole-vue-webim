@@ -2,7 +2,8 @@
     <div class="card">
         <div class="header">
             <img class="avatar" v-bind:src="currentUser.avatar" v-bind:alt="currentUser.name">
-            <p class="name">{{ currentUser.nickname }}</p>
+            <p class="name">{{ currentUser.nickname }} </p>
+            <div class="dot" v-bind:class="[ online ? 'dot-green' : 'dot-red' ]"></div>
         </div>
         <div class="search">
             <input type="text" placeholder="Search" v-on:keyup="onKeyup | debounce 300">
@@ -47,6 +48,20 @@
                 font-size: 16px;
                 align-self:center;
                 margin-left: 15px;
+            }
+            .dot{
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                align-self: center;
+                margin-left: 10px;
+                background: #eee;
+            }
+            .dot-green{
+                background: #00ff00;
+            }
+            .dot-red{
+                background: #ff0000;
             }
         }
 

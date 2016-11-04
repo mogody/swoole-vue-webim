@@ -5,104 +5,32 @@ Vue.use(Vuex)
 
 //create a pbject to save the state of app at start
 const state = {
-
+    //the user of current
     currentUser : {
         id : 13,
         avatar : 'http://tva3.sinaimg.cn/crop.0.0.200.200.50/701cac0cjw8ez3nd2wa7rj205k05kt8v.jpg',
         nickname : 'jack'
     },
+    //all users
     users : [
         {
             id : 0,
-            avatar : 'http://tva3.sinaimg.cn/crop.0.0.746.746.50/a157f83bjw8f5rr5twb5aj20kq0kqmy4.jpg',
-            nickname : '相约江湖'
-        },
-        {
-            id: 10,
-            avatar: 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
-            nickname: 'kitty'
-        },
-        {
-            id: 11,
-            avatar: 'http://tva1.sinaimg.cn/crop.0.0.1080.1080.180/005G1fL8jw8evigk5jgacj30u00u0jv0.jpg',
-            nickname: 'summer'
-        },
-        {
-            id: 12,
-            avatar: 'http://tva3.sinaimg.cn/crop.0.0.720.720.180/67dc8345jw8eh4b7kn99rj20k00k075o.jpg',
-            nickname: 'snake'
-        },
-        {
-            id: 14,
-            avatar: 'http://tva2.sinaimg.cn/crop.0.0.512.512.180/75e32eebjw8f4f8ow8b6cj20e80e83z7.jpg',
-            nickname: 'hello'
+            nickname : '群聊',
+            avatar : 'http://58pic.ooopic.com/58pic/12/25/04/02k58PICVwf.jpg'
         }
     ],
     filterUser: '',
 
     currentSession : {
-        id : 10,
-        nickname : 'kitty',
-        avatar : 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
+        id : 0,
+        nickname : '群聊',
+        avatar : 'http://b.hiphotos.baidu.com/exp/w=480/sign=d86a96f25766d0167e199f20a72ad498/b8014a90f603738d48c6191db61bb051f819ec05.jpg',
         chat : null
     },
 
-    chats : [
-        
-    ],
+    online : false,
 
-    broadcast : [
-        {
-            id : 0,
-            user : {
-                id: 10,
-                avatar: 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
-                nickname: 'kitty'
-            },
-            time : '2016-09-26 15:36',
-            msg : 'this is the first message'
-        },
-        {
-            id : 1,
-            user : {
-                id: 10,
-                avatar: 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
-                nickname: 'kitty'
-            },
-            time : '2016-09-26 15:36',
-            msg : 'this is the second message'
-        },
-        {
-            id : 2,
-            user : {
-                id: 11,
-                avatar: 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
-                nickname: 'summer'
-            },
-            time : '2016-09-26 15:36',
-            msg : 'this is the third message'
-        },
-        {
-            id : 3,
-            user : {
-                id: 13,
-                avatar: 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
-                nickname: 'hello'
-            },
-            time : '2016-09-26 15:36',
-            msg : 'this is the fource message'
-        },
-        {
-            id : 4,
-            user : {
-                id: 12,
-                avatar: 'http://tva3.sinaimg.cn/crop.0.0.132.132.180/a755c923jw8ezf8vrhy9rj203o03omwz.jpg',
-                nickname: 'snake'
-            },
-            time : '2016-09-26 15:36',
-            msg : 'this is the fifth message'
-        }
-    ],
+    broadcast : [],
 
     connection : null
 }
@@ -128,11 +56,85 @@ const mutations = {
         state.currentUser = user;
     },
 
+    ADD_USER: (state, user) => {
+        if (user instanceof Array) {
+
+            for (var i = user.length - 1; i >= 0; i--) {
+                if (user[i].id != state.currentUser.id) {
+                    state.users.push(user[i]);
+                }
+                
+            }
+        }else{
+            state.users.push(user);
+        }
+    
+    },
+
+    REMOVE_USER: (state, userId) => {
+        state.users.forEach((item,index) => {
+            if (item.id == userId) {
+                state.users.$remove(item);
+            }
+        });
+    },
+
     SET_CONN: (state, conn) => {
         if (conn != null && state.connection == null) {
             state.connection = conn;
         }
     
+    },
+
+    CHANGE_STATUS: (state, status) => {
+        state.online = status;
+    },
+
+    ADD_MESSAGE: (state, message) => {
+        let msg = {
+            user : {
+                id : message.from,
+                avatar : '',
+                nickname : ''
+            },
+            msg : message.msg,
+            time : message.date
+        };
+        if (message.from == state.currentUser.id) {
+            msg.user = state.currentUser;
+        }else{
+            for (var i = state.users.length - 1; i >= 0; i--) {
+                if (state.users[i].id == message.from) {
+                    msg.user = state.users[i];
+                    break;
+                }
+            }
+        }
+
+        if (message.to == 0) {
+            if (state.broadcast[ 0 ] == undefined) {
+                state.broadcast[ 0 ] = new Array;
+            }
+
+            state.broadcast[ 0 ].push(msg);
+
+            state.broadcast.$set(0,state.broadcast[0]);
+        }else{
+            if (message.is_self == 1) {
+                message.from = message.to;
+            }
+
+
+            if (state.broadcast[ message.from ] == undefined) {
+                state.broadcast[ message.from ] = new Array;
+            }
+
+            state.broadcast[ message.from ].push(msg);
+
+            state.broadcast.$set(message.from,state.broadcast[ message.from ]);
+        }
+
+        
     }
 }
 

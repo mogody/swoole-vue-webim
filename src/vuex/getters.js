@@ -12,10 +12,12 @@ export default {
 
     broadcast : ({ broadcast }) => broadcast,
 
-    getConn : ({ connection }) => {
+    conn : ({ connection }) => {
         
         if (connection != null) {
             return connection;
         }
-    }
+    },
+
+    online : ({ online }) => online,
 }
