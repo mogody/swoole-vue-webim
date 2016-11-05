@@ -20,4 +20,8 @@ export default {
     },
 
     online : ({ online }) => online,
+
+    currentCount : ({ currentCount }) => currentCount,
+
+    notice : ({ notice }) => notice
 }

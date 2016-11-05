@@ -1,39 +1,39 @@
 export default {
     //the first arg is the instance of Vuex.Store , another is custom
 
-    searchUser: function({ dispatch }, filterUser){
+    searchUser: ({ dispatch }, filterUser) => {
         dispatch('FILTER_USER', filterUser);
     },
 
-    selectSession : function({ dispatch }, userId){
+    selectSession : ({ dispatch }, userId) => {
         dispatch('CHANGE_SESSION', userId);
     },
 
-    setUser : function({ dispatch }, user){
+    setUser : ({ dispatch }, user) => {
         if (user.id && user.avatar && user.nickname) {
             dispatch('SET_USER', user);
         }
     },
 
-    addUser : function({ dispatch }, user){
+    addUser : ({ dispatch }, user) => {
         if (user instanceof Array || user.id && user.avatar && user.nickname) {
             dispatch('ADD_USER', user);
         }
     },
 
-    removeUser : function({ dispatch }, userId){
+    removeUser : ({ dispatch }, userId){
         dispatch('REMOVE_USER', userId);
     },
 
-    setConn : function({ dispatch }, conn){
+    setConn : ({ dispatch }, conn) => {
         dispatch('SET_CONN', conn);
     },
 
-    changeStatus : function({ dispatch }, status){
+    changeStatus : ({ dispatch }, status) => {
         dispatch('CHANGE_STATUS', status);
     },
 
-    addMessage : function({ dispatch }, message){
+    addMessage : ({ dispatch }, message) => {
         if (message.is_self != 1) {
             let userId = message.to == 0 ? 0 : message.from;
         
@@ -44,8 +44,16 @@ export default {
         dispatch('ADD_MESSAGE',message);
     },
 
-    setHasMessageStatus : function({ dispatch }, userId, status){
+    setHasMessageStatus : ({ dispatch }, userId, status) => {
         dispatch('SET_HAS_MESSAGE', userId, status);
+    },
+
+    setCount : ({ dispatch }, count) => {
+        dispatch('SET_COUNT', count);
+    },
+
+    showNotice : ({ dispatch }, msg, type) => {
+
     }
 
 

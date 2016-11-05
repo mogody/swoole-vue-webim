@@ -5,10 +5,11 @@
       <list></list>
     </div>
     <div class="main">
+      <notice></notice>
       <message></message>
       <user-text></user-text>
     </div>
-    <notice></notice>
+    
   </div>
 </template>
 
@@ -30,7 +31,7 @@
         },
 
         components:{
-            User,UserText,Message,List,
+            User,UserText,Message,List,Notice
         },
 
         created : function(){
@@ -48,13 +49,17 @@
 
                 switch(msg.type){
                     case 'connect':
+                        console.log(msg.data);
                         _this.addUser(msg.data);
+                        _this.setCount(msg.data.count);
                         break;
                     case 'disconnect':
                         _this.removeUser(msg.data.id);
+                        _this.setCount(msg.data.count);
                         break;
                     case 'self_init':
                         _this.setUser(msg.data);
+                        _this.setCount(msg.data.count);
                         break;
                     case 'other_init':
                         _this.addUser(msg.data);

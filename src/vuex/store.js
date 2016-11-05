@@ -29,11 +29,18 @@ const state = {
         chat : null
     },
 
+    currentCount : 0,
+
     online : false,
 
     broadcast : [],
 
-    connection : null
+    connection : null,
+
+    notice : {
+        show : true,
+        msg : ''
+    }
 }
 
 //create a object to save the function of mutation
@@ -146,6 +153,10 @@ const mutations = {
                 state.users[i].has_message = status;
             }
         }
+    },
+
+    SET_COUNT : (state, count) => {
+        state.currentCount = count;
     }
 }
 

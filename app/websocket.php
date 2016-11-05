@@ -113,7 +113,8 @@ class WebSocket{
         $userMsg = $this->buildMsg([
                 'id' => $req->fd,
                 'avatar' => $avatar,
-                'nickname' => $nickname
+                'nickname' => $nickname,
+                'count' => count($this->table)
             ],self::INIT_SELF_TYPE);
         $this->server->task([
                 'to' => [$req->fd],
@@ -139,7 +140,8 @@ class WebSocket{
         $msg = $this->buildMsg([
                 'id' => $req->fd,
                 'avatar' => $avatar,
-                'nickname' => $nickname
+                'nickname' => $nickname,
+                'count' => count($this->table)
             ],self::CONNECT_TYPE);
         $this->server->task([
                 'to' => [],
@@ -166,15 +168,16 @@ class WebSocket{
     }
 
     public function close(swoole_websocket_server $server, $fd){
+        $this->table->del($fd);
         $msg = $this->buildMsg([
-                'id' => $fd
+                'id' => $fd,
+                'count' => count($this->table)
             ],self::DISCONNECT_TYPE);
         $this->server->task([
                 'to' => [],
                 'except' => [$fd],
                 'data' => $msg
             ]);
-        $this->table->del($fd);
     }
 
     public function task($server, $task_id, $from_id, $data){

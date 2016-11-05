@@ -1,7 +1,9 @@
 <template>
-    <div class="notice warning">
-        <p>this a notice message!</p>
-    </div>
+    <transition name="fade">
+        <div class="notice warning">
+            <p v-if="notice.show">{{ notice.msg }}</p>
+        </div>
+    </transition>
 </template>
 
 
@@ -22,14 +24,13 @@
 
 <style lang="less">
     .notice{
-        display: none;
         width: 300px;
         height: 40px;
         line-height: 40px;
         position: absolute;
-        top: 0;
+        top: 0%;
         left: 50%;
-        margin-left: -150px;
+        margin-left: -50px;
         background: #00ff00;
 
         p {
@@ -50,5 +51,11 @@
         color: #a94442;
         background: #f2dede;
         box-shadow: 0px 0px 10px #F77B6F;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-active {
+        opacity: 0;
     }
 </style>

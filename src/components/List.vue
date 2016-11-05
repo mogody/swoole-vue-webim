@@ -3,7 +3,7 @@
         <ul>
             <li v-for="user in users | filterBy filterUser in 'nickname'" track-by="id" v-bind:id="user.id" v-on:click="changeSession(user.id)">
                 <img v-bind:src="user.avatar" v-bind:alt="user.name">
-                <p>{{ user.nickname }}</p>
+                <p>{{ user.nickname }} <span v-if="user.id == 0">({{ currentCount }})</span></p>
                 <div v-bind:class="[ user.has_message ? 'dot' : '' ]"></div>
             </li>
         </ul>

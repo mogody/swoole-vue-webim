@@ -21,7 +21,7 @@
 
         methods : {
             send(e){
-                let date = new Date();
+                let date = new Date().toLocaleString();
                 let _this = this;
                 let msg = {
                         from : _this.currentUser.id,
