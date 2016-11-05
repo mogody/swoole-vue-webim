@@ -150,7 +150,7 @@ const mutations = {
     SET_HAS_MESSAGE : (state, userId, status) => {
 
         for (var i = state.users.length - 1; i >= 0; i--) {
-            if (status == false || state.users[i].id == userId && state.currentSession.id != userId ) {
+            if (status == false && state.users[i].id == userId || state.users[i].id == userId && state.currentSession.id != userId ) {
                 state.users[i].has_message = status;
             }
         }
