@@ -48,6 +48,8 @@ php websocket.php
 http://localhost:8080
 ```
 
+![](http://i1.piimg.com/567571/697dbe904510959c.png)
+
 Job done!
 
 
