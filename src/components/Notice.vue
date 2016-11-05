@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
-        <div class="notice warning">
-            <p v-if="notice.show">{{ notice.msg }}</p>
+        <div class="notice" v-bind:class="notice.type" v-if="notice.show">
+            <p>{{ notice.msg }}</p>
         </div>
     </transition>
 </template>

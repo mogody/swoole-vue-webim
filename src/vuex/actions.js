@@ -21,7 +21,7 @@ export default {
         }
     },
 
-    removeUser : ({ dispatch }, userId){
+    removeUser : ({ dispatch }, userId) => {
         dispatch('REMOVE_USER', userId);
     },
 
@@ -53,7 +53,7 @@ export default {
     },
 
     showNotice : ({ dispatch }, msg, type) => {
-
+        dispatch('SHOW_NOTICE', msg, type);
     }
 
 

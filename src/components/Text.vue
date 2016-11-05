@@ -1,6 +1,6 @@
 <template>
     <div class="user-text">
-        <textarea name="" id="" placeholder="Press enter to send" v-model="content"></textarea>
+        <textarea name="" id="" placeholder="Press enter to send" v-model="content" v-on:keyup.enter="send"></textarea>
     </div>
     <div class="text-footer">
         <button v-on:click="send">发送</button>
@@ -29,12 +29,16 @@
                         msg : _this.content,
                         date : date
                     };
-                if (this.content != '') {
-                    this.conn.send(JSON.stringify(msg));
+
+                if (_this.content !== '' ) {
+                    _this.conn.send(JSON.stringify(msg));
                     _this.content = '';
+                    msg.is_self = 1;
+                    _this.addMessage(msg);
+                }else{
+                    _this.showNotice(' 消息不能为空!','warning');
                 }
-                msg.is_self = 1;
-                _this.addMessage(msg);
+                
             }
         },
 

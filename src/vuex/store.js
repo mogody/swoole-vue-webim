@@ -38,7 +38,8 @@ const state = {
     connection : null,
 
     notice : {
-        show : true,
+        show : false,
+        type : '',
         msg : ''
     }
 }
@@ -157,6 +158,16 @@ const mutations = {
 
     SET_COUNT : (state, count) => {
         state.currentCount = count;
+    },
+
+    SHOW_NOTICE : (state, msg, type) => {
+        state.notice = {
+            show : true, msg, type
+        }
+
+        setTimeout(function(){
+            state.notice.show = false;
+        },1000);
     }
 }
 
