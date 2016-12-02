@@ -17,7 +17,7 @@
 切换到项目目录，安装相关依赖：
 
 ```
-npm run install
+npm install
 ```
 
 构建项目：
